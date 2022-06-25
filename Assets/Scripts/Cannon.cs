@@ -6,13 +6,16 @@ public class Cannon : MonoBehaviour
 {
     //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Rigidbody2D bullet;
-    private float speed = 1000f;
-    private float cannonMovementSpeed = 100f;
-    private bool bulletActive = false;
+    private float bulletSpeed = 1000f;
+    private float cannonMovementSpeed = 5f;
+    private bool bulletActive = false, moveLeft = false, moveRight = false;
+    Vector3 leftEdge, rightEdge;
 
     private void OnEnable()
     {
         Bullet.OnBulletCollide += Bullet_OnBulletCollide;
+        leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
     }
 
     private void Bullet_OnBulletCollide()
@@ -22,18 +25,29 @@ public class Cannon : MonoBehaviour
 
     private void Update()
     {
-
+        Vector3 movement = transform.right * cannonMovementSpeed * Time.deltaTime;
         if (Input.GetKeyDown("space"))
         {
             _shoot();
-        }
-        if (Input.GetKeyDown("a") || Input.GetKeyDown(KeyCode.LeftArrow))
+        }else if (Input.GetKeyDown("a") || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            gameObject.transform.Translate(-transform.right * cannonMovementSpeed * Time.deltaTime); 
-        }
-        if (Input.GetKeyDown("d") || Input.GetKeyDown(KeyCode.RightArrow))
+            moveLeft = true;
+        }else if (Input.GetKeyDown("d") || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            gameObject.transform.Translate(transform.right * cannonMovementSpeed * Time.deltaTime);
+            moveRight = true;
+        }else if (Input.GetKeyUp("a") || Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            moveLeft = false;
+        }else if (Input.GetKeyUp("d") || Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            moveRight = false;
+        }
+        if (moveRight)
+        {
+            _moveRight(rightEdge, movement);
+        }else if (moveLeft)
+        {
+            _moveLeft(leftEdge, movement);
         }
     }
 
@@ -43,7 +57,31 @@ public class Cannon : MonoBehaviour
         {
             bulletActive = true;
             var newBullet = Instantiate(bullet, gameObject.transform.position, gameObject.transform.rotation);
-            newBullet.velocity = transform.up * speed * Time.deltaTime;
+            newBullet.velocity = transform.up * bulletSpeed * Time.deltaTime;
         }
+    }
+
+    private void _moveLeft(Vector3 leftEdge, Vector3 movement)
+    {
+        Vector3 cannonPosition = gameObject.transform.position - gameObject.transform.localScale - movement;    //Finds Position of cannon after movement
+        if (cannonPosition.x > MainCamera.cameraInstance.getCamerLeftEdge().x)
+        {
+            gameObject.transform.Translate(-movement);
+        }
+    }
+
+    private void _moveRight(Vector3 rightEdge, Vector3 movement)
+    {
+        Vector3 cannonPosition = gameObject.transform.position + gameObject.transform.localScale + movement;    //Finds Position of cannon after movement
+        if (cannonPosition.x < MainCamera.cameraInstance.getCamerRightEdge().x)
+        {
+            gameObject.transform.Translate(movement);
+
+        }
+    }
+
+    private void OnDisable()
+    {
+        Bullet.OnBulletCollide -= Bullet_OnBulletCollide;
     }
 }
