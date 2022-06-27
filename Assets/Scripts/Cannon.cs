@@ -6,7 +6,7 @@ public class Cannon : MonoBehaviour
 {
     //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Rigidbody2D bullet;
-    private float bulletSpeed = 1000f;
+    private float bulletSpeed = 5000f;
     private float cannonMovementSpeed = 5f;
     private bool bulletActive = false, moveLeft = false, moveRight = false;
     Vector3 leftEdge, rightEdge;
@@ -63,7 +63,7 @@ public class Cannon : MonoBehaviour
 
     private void _moveLeft(Vector3 leftEdge, Vector3 movement)
     {
-        Vector3 cannonPosition = gameObject.transform.position - gameObject.transform.localScale - movement;    //Finds Position of cannon after movement
+        Vector3 cannonPosition = gameObject.transform.position - (gameObject.transform.localScale + movement);    //Finds Position of cannon after movement
         if (cannonPosition.x > MainCamera.cameraInstance.getCamerLeftEdge().x)
         {
             gameObject.transform.Translate(-movement);

@@ -8,6 +8,9 @@ public class Invaders : MonoBehaviour
     private int numberofInvadersInARow = 15;
     private float spaceBtwnInvaders = 0.4f;
     public static Invaders invadersInst;
+    private float invaderSpaceX;
+    private float invaderSpaceY;
+    public bool moveLeft = false, moveRight = false;
 
     private void Awake()
     {
@@ -23,8 +26,8 @@ public class Invaders : MonoBehaviour
         for (int i = 0; i < invaders.Length; i++)
         {
             Vector3 invaderScale = invaders[i].transform.localScale;
-            float invaderSpaceX = invaderScale.x + spaceBtwnInvaders;
-            float invaderSpaceY = invaderScale.y + spaceBtwnInvaders;
+            invaderSpaceX = invaderScale.x + spaceBtwnInvaders;
+            invaderSpaceY = invaderScale.y + spaceBtwnInvaders;
             float xSpaceReq = invaderSpaceX * numberofInvadersInARow;
             float xSpacePosition = (xSpaceReq / 2) * -1;
             for (int j=0; j < numberofInvadersInARow; j++)
@@ -33,6 +36,11 @@ public class Invaders : MonoBehaviour
                 Instantiate(invaders[i], spawnPosition, Quaternion.identity);
             }
         }
+        moveLeft = true;
+    }
+
+    private void Update()
+    {
     }
 
     public GameObject[] getInvadersObject()

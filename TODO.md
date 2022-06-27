@@ -2,7 +2,7 @@
 
 ### Todo
 
-- [ ] Move Invaders and fire from invaders
+- [ ] Fire from invaders
 - [ ] Mystery ship logic
 - [ ] Logic for player lives
 
@@ -13,3 +13,4 @@
 - [x] Added logic to delete invader and bullet
 - [x] Implemented Spawning of the invaders, Added score
 - [x] Blocked cannon movement if it reaches any of the edge
+- [x] Move Invaders
