@@ -6,7 +6,7 @@ public class Invaders : MonoBehaviour
 {
     [SerializeField] private GameObject[] invaders = new GameObject[3];
     private int numberofInvadersInARow = 15;
-    private float spaceBtwnInvaders = 0.4f;
+    private float spaceBtwnInvaders = 0.3f;
     public static Invaders invadersInst;
     private float invaderSpaceX;
     private float invaderSpaceY;

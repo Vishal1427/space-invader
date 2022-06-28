@@ -7,7 +7,7 @@ public class Cannon : MonoBehaviour
     //[SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Rigidbody2D bullet;
     private float bulletSpeed = 2000f;
-    private float cannonMovementSpeed = 5f;
+    private float cannonMovementSpeed = 2f;
     private bool bulletActive = false, moveLeft = false, moveRight = false;
     Vector3 leftEdge, rightEdge;
 
