@@ -9,6 +9,16 @@ public class GameManager : MonoBehaviour
     private int points = 15;
     public static GameManager gameManagerInstance;
 
+    private void OnEnable()
+    {
+        Invader.OnInvaderKilled += Invader_OnInvaderKilled;
+    }
+
+    private void Invader_OnInvaderKilled(GameObject killedInvader)
+    {
+        this._setPoints(killedInvader);
+    }
+
     private void Awake()
     {
         if (gameManagerInstance != null)
@@ -18,7 +28,7 @@ public class GameManager : MonoBehaviour
         gameManagerInstance = this;
     }
 
-    public void setPoints(GameObject invader)
+    private void _setPoints(GameObject invader)
     {
         GameObject[] invaders = Invaders.invadersInst.getInvadersObject();
         for (int i = 0; i < invaders.Length; i++)
@@ -26,7 +36,6 @@ public class GameManager : MonoBehaviour
             if (invaders[i].tag.Equals(invader.tag))
             {
                 score += ((i + 1) * points);
-                Debug.Log(score);
                 if (OnScoreUpdated != null)
                 {
                     OnScoreUpdated(score);

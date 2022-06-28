@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
 
     private void GameManager_OnScoreUpdated(int score)
     {
-        Debug.Log("Score " + score);
         scoreText.text = "Score "+score;
     }
 
