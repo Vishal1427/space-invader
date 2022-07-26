@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    Rigidbody2D bullet;
+    private float bulletSpeed = 400f;
+
+
+    private void Start()
+    {
+        bullet = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        bullet.velocity = transform.up * bulletSpeed * Time.deltaTime;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _bulletCollide();
+        if (collision.gameObject.name.Contains("Invader") || collision.gameObject.name.Contains("MysteryShip"))
+            _bulletCollide();
     }
 
     private void OnBecameInvisible()
@@ -20,7 +35,7 @@ public class Bullet : MonoBehaviour
         {
             OnBulletCollide();
         }
-        Destroy(gameObject);
+        gameObject.SetActive(false);
 
     }
 
